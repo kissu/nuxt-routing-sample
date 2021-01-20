@@ -1,39 +1,41 @@
+<router>
+{
+  alias: [
+    '/:locale/account/:id/standalone-nested',
+  ]
+}
+</router>
+
 <template>
   <div class="container">
     <div class="row">
       <div class="col">
-        <h1 class="title">
-          Standalone (id: {{ id }})
-        </h1>
-        <p>
-          This should not be rendered inside parent!
-        </p>
+        <h1 class="title">Standalone (id: {{ id }})</h1>
+        <p>This should not be rendered inside parent!</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
-  components: {
-  },
-  data () {
+  components: {},
+  data() {
     return {
-      id: null
+      id: null,
     }
   },
   watch: {
     $route: {
-      handler () {
+      handler() {
         this.id = this.$route.params.id
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
 
   mounted() {
     console.warn('mounted: Standalone')
-  }
+  },
 }
 </script>
