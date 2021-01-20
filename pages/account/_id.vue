@@ -7,7 +7,7 @@
           <h1 class="title">Main Page ~ Account Detail (id: {{ id }})</h1>
         </div>
       </div>
-      <!-- v-if="$route.path.endsWith('standalone')" -->
+
       <div class="row py-2">
         <div class="col">
           <nuxt-link tag="a" class="btn btn-danger" :to="`/en/account/123/standalone-nested`">
@@ -19,7 +19,10 @@
         </div>
       </div>
       <div>
-        <!-- v-else -->
+        <button @click="toggleBetweenComponents" style="margin: 1rem 0">
+          Replace nuxt-child by the Standalone component
+        </button>
+
         <ul class="nav nav-tabs">
           <li class="nav-item">
             <nuxt-link tag="a" class="nav-link active" :to="`/en/account/123/nested-a`">Nested A</nuxt-link>
@@ -29,7 +32,7 @@
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-          <nuxt-child></nuxt-child>
+          <component :is="nuxtChildOrStandaloneComponent"></component>
         </div>
       </div>
     </div>
@@ -39,9 +42,13 @@
 <script>
 export default {
   name: 'AccountIdMainPage',
+  components: {
+    ExampleStandalone: () => import('~/components/ExampleStandalone.vue'),
+  },
   data() {
     return {
       id: null,
+      nuxtChildOrStandaloneComponent: 'nuxt-child',
     }
   },
   watch: {
@@ -52,7 +59,15 @@ export default {
       immediate: true,
     },
   },
-
+  methods: {
+    toggleBetweenComponents() {
+      if (this.nuxtChildOrStandaloneComponent === 'nuxt-child') {
+        this.nuxtChildOrStandaloneComponent = 'example-standalone'
+      } else {
+        this.nuxtChildOrStandaloneComponent = 'nuxt-child'
+      }
+    },
+  },
   mounted() {
     console.warn('mounted: Detail')
   },
